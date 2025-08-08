@@ -158,4 +158,9 @@ Client-side prediction system that interpolates between server updates to mainta
 **⚠️ Technical Challenges:**  
 Balancing responsiveness with accuracy. Handling correction when server state differs from predicted state.
 
+**📚 Useful Resources**
+
+- 🔗 [Open Genie GitHub Repository](https://github.com/myscience/open-genie.git)
+- 🧠 [Genie 3: A New Frontier for World Models (DeepMind Blog)](https://deepmind.google/discover/blog/genie-3-a-new-frontier-for-world-models/)
+- 🌌 [Skybox AI Environment Generator](https://skybox.blockadelabs.com/)
 ---
