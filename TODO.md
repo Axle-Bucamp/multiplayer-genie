@@ -209,7 +209,7 @@ Instrument backend to log Mario Bros. coop-style multiplayer traces (states, act
 - ⚡ [Nakama Documentation](https://heroiclabs.com/docs/) — Multiplayer backend
 - 🧠 [Genie 3: A New Frontier for World Models (DeepMind Blog)](https://deepmind.google/discover/blog/genie-3-a-new-frontier-for-world-models/)
 - 🌌 [Skybox AI Environment Generator](https://skybox.blockadelabs.com/)
-
+- 🌌 [player agent pretrain on video](https://github.com/openai/Video-Pre-Training)
 ***
 
 **Process Best Practices:**
