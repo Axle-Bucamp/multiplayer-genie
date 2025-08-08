@@ -1,52 +1,69 @@
-# ✅ Multiplayer Genie TODO List
+
+
+***
+# ✅ Multiplayer Genie TODO List (2025 Roadmap)
+
+## 🔍 Architecture Overview
+
+- **Visualizer:** Genie (Open Genie GitHub) as the world and event renderer.
+- **Backend:** Nakama (WebSocket, Go/TS) or FastAPI+Nginx+WebSocket+Pydantic (Python).
+- **Infra:** Kubernetes & Docker for deployment; Cloud-managed DBs and scalable node pools (GCP/AWS/Azure).
+- **Dataset & AI Training:** Mario Bros. coop-inspired multiplayer traces, continuous model training & loss monitoring.
+
+***
 
 ## 🔧 Genie Integration Interface
 
 - [ ] **Component:** Genie Integration Interface  
-📦 **Type:** Protocol  
+📦 **Type:** Protocol/API  
 🔥 **Priority:** Critical  
 🧩 **Dependencies:** Data Serialization  
 🗓️ **Due Date:** 20 octobre 2025  
 
 **📝 Task Summary:**  
-Protocol and API that handles communication with the Google Genie AI system, including prompt construction, context management, and result processing.
+Design REST/WebSocket API for bidirectional real-time communication with Genie visualizer, supporting prompt construction, context injection, and response streaming for multiplayer scenes.
 
 **⚠️ Technical Challenges:**  
-Optimizing prompts for consistent multiplayer rendering. Managing API rate limits and ensuring response time meets real-time requirements.
+- Managing prompt/context variability for synchronous multiplayer rendering.
+- Handling API quotas and ensuring real-time responsiveness.
+- Ensuring robust schema validation (Pydantic for FastAPI, Go structs/TypeScript for Nakama).
 
----
+***
 
 ## 🔧 AI Context Assembler
 
 - [ ] **Component:** AI Context Assembler  
-📦 **Type:** Server  
+📦 **Type:** Backend Service  
 🔥 **Priority:** Critical  
 🧩 **Dependencies:** Data Serialization, State Synchronization  
 🗓️ **Due Date:** 5 octobre 2025  
 
 **📝 Task Summary:**  
-Component that prepares the custom context for the Genie AI based on each player's perspective, including relevant nearby players and world metadata.
+Dynamically builds per-player Genie context from world state, nearby players, and metadata, using spatial indexing for efficient filtering.
 
 **⚠️ Technical Challenges:**  
-Efficiently filtering relevant information to prevent context overflow. Ensuring temporal consistency in AI rendering.
+- Preventing context overflow with spatial/semantic filtering.
+- Temporal consistency for multiplayer AI rendering.
+- Real-time dataset collection for later model refinement.
 
----
+***
 
 ## 🔧 Player State Synchronizer
 
 - [ ] **Component:** Player State Synchronizer  
-📦 **Type:** Server  
+📦 **Type:** Server/Backend  
 🔥 **Priority:** Critical  
 🧩 **Dependencies:** Connection Manager, State Synchronization  
 🗓️ **Due Date:** 20 septembre 2025  
 
 **📝 Task Summary:**  
-Server-side component that collects, validates, and distributes player state updates to relevant nearby players. Manages the core state object including position, rotation, action, and view vectors.
+Collects, validates, serializes, and broadcasts player state. Implements delta compression and bandwidth-saving mechanisms.
 
 **⚠️ Technical Challenges:**  
-Bandwidth optimization for frequent updates. Handling unreliable connections and implementing conflict resolution for concurrent state updates.
+- Reducing bandwidth via event coalescing/deltas.
+- Network reliability and handling dropped packets/conflicting updates.
 
----
+***
 
 ## 🔧 Spherical World Model Manager
 
@@ -57,12 +74,13 @@ Bandwidth optimization for frequent updates. Handling unreliable connections and
 🗓️ **Due Date:** 15 septembre 2025  
 
 **📝 Task Summary:**  
-Core system that maintains the spherical world model (snowball) as the central spatial anchor for all players. Handles the mathematical representation of the sphere, coordinates mapping, and spatial relationships.
+Central authority for snowball-style spherical coordinate management, spatial anchoring, and mathematical projections.
 
 **⚠️ Technical Challenges:**  
-Implementing efficient spatial indexing for a spherical surface. Ensuring consistent coordinate transformations across different client implementations.
+- Geodesic grid or HEALPix for scalable proximity queries.
+- Representation/transform consistency across backend/frontend.
 
----
+***
 
 ## 🔧 Security Validator
 
@@ -73,12 +91,13 @@ Implementing efficient spatial indexing for a spherical surface. Ensuring consis
 🗓️ **Due Date:** 5 novembre 2025  
 
 **📝 Task Summary:**  
-System that validates player state updates to prevent cheating, hacking, or exploitation of the multiplayer environment.
+Prevents cheating/exploitation by rigorously validating all player state changes before broadcast.
 
 **⚠️ Technical Challenges:**  
-Balancing security with performance. Detecting sophisticated cheating attempts without false positives.
+- Low-latency anomaly detection.
+- False-positive avoidance for unusual but fair gameplay.
 
----
+***
 
 ## 🔧 Frame Consistency Manager
 
@@ -89,12 +108,13 @@ Balancing security with performance. Detecting sophisticated cheating attempts w
 🗓️ **Due Date:** 30 septembre 2025  
 
 **📝 Task Summary:**  
-Client-side component that maintains visual consistency between frames by managing init images and previous frames for temporal coherence in AI-generated outputs.
+Manages temporal coherence of AI output by buffering historical frames, ensuring scene continuity.
 
 **⚠️ Technical Challenges:**  
-Balancing memory usage with the need for historical context. Handling significant perspective changes without visual artifacts.
+- Client-side memory optimization for frame buffer.
+- Major view/perspective change resets to prevent visual artifacts.
 
----
+***
 
 ## 🔧 Proximity Detection System
 
@@ -105,12 +125,13 @@ Balancing memory usage with the need for historical context. Handling significan
 🗓️ **Due Date:** 25 septembre 2025  
 
 **📝 Task Summary:**  
-System that efficiently determines which players are within render distance of each other on the spherical surface, optimizing who receives updates about whom.
+Geodesic sphere-based logic to determine render/update neighbors for every player.
 
 **⚠️ Technical Challenges:**  
-Efficiently computing geodesic distances on a sphere. Scaling to handle hundreds or thousands of simultaneous players.
+- Great-circle distance calculations at scale.
+- Subscription management for state-change broadcasts.
 
----
+***
 
 ## 🔧 World Event Broadcaster
 
@@ -121,12 +142,13 @@ Efficiently computing geodesic distances on a sphere. Scaling to handle hundreds
 🗓️ **Due Date:** 25 octobre 2025  
 
 **📝 Task Summary:**  
-System that manages global events affecting multiple players or regions of the spherical world, ensuring consistent experience across all participants.
+Manages zone/global events (e.g., public competitions, region effects) ensuring multi-client consistency.
 
 **⚠️ Technical Challenges:**  
-Scheduling and prioritizing events. Ensuring events are rendered consistently across different player perspectives.
+- Event prioritization and reliable delivery.
+- Cross-client and cross-region synchronization.
 
----
+***
 
 ## 🔧 Spawn Point Manager
 
@@ -137,12 +159,13 @@ Scheduling and prioritizing events. Ensuring events are rendered consistently ac
 🗓️ **Due Date:** 15 octobre 2025  
 
 **📝 Task Summary:**  
-System that manages player spawn locations on the spherical surface, ensuring balanced distribution and appropriate starting conditions.
+Calculates balanced, fair spawn points using current world/player distribution.
 
 **⚠️ Technical Challenges:**  
-Determining optimal spawn locations based on current world state. Preventing spawn camping or unfair advantages.
+- Avoiding hazardous/unfair spawn zones.
+- Preventing spawn clustering/camping exploits.
 
----
+***
 
 ## 🔧 Latency Compensation System
 
@@ -153,14 +176,46 @@ Determining optimal spawn locations based on current world state. Preventing spa
 🗓️ **Due Date:** 10 octobre 2025  
 
 **📝 Task Summary:**  
-Client-side prediction system that interpolates between server updates to maintain smooth player movement and actions despite network latency.
+Client prediction/interpolation of movement/actions, reconciling on server correction.
 
 **⚠️ Technical Challenges:**  
-Balancing responsiveness with accuracy. Handling correction when server state differs from predicted state.
+- Smoothing prediction/server correction without player "rubber-banding".
+- Accurate modeling of various latency profiles.
 
-**📚 Useful Resources**
+***
 
-- 🔗 [Open Genie GitHub Repository](https://github.com/myscience/open-genie.git)
+## 🔧 Dataset Collector & Training Pipeline
+
+- [ ] **Component:** Dataset Collector & Training  
+📦 **Type:** ML/AI Infra  
+🔥 **Priority:** High  
+🧩 **Dependencies:** Player State Synchronizer, AI Context Assembler  
+🗓️ **Due Date:** 15 novembre 2025  
+
+**📝 Task Summary:**  
+Instrument backend to log Mario Bros. coop-style multiplayer traces (states, actions, outcomes). Preprocess, label, and feed to training pipeline. Automate model retraining and loss tracking for continuous AI improvement.
+
+**⚠️ Technical Challenges:**  
+- Scalable, cloud-native log collection and safe anonymization.
+- Automated preprocessing on K8s jobs.
+- Custom loss design (rewarding cooperation, penalizing instability), with training on cloud GPU/TPUs.
+- Monitoring/dashboards for loss, accuracy, and live model evaluation.
+
+***
+
+## 📚 Useful Resources
+
+- 🔗 [Open Genie GitHub Repository](https://github.com/myscience/open-genie.git) — Visualizer, API reference
+- ⚡ [Nakama Documentation](https://heroiclabs.com/docs/) — Multiplayer backend
 - 🧠 [Genie 3: A New Frontier for World Models (DeepMind Blog)](https://deepmind.google/discover/blog/genie-3-a-new-frontier-for-world-models/)
 - 🌌 [Skybox AI Environment Generator](https://skybox.blockadelabs.com/)
----
+
+***
+
+**Process Best Practices:**
+- Modularize all services; clear API contracts.
+- Automate CI/CD, test, and deploys.
+- Instrument for detailed monitoring (Prometheus, Grafana).
+- Enable dataset replay and rapid retraining via K8s pipelines.
+- Document each module with code, diagrams, and examples.
+
